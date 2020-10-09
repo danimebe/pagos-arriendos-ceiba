@@ -8,9 +8,11 @@ const { RENTAL_COST } = require('../utils/consts');
 const createPayment = async (payment) => {
     const { documentoIdentificacionArrendatario, codigoInmueble, valorPagado } = payment;
 
-    const paymentToUpdate = await Payment.findOne({ where: { {
-        [Op.and]: {
-            documentoIdentificacionArrendatario, codigoInmueble
+    const paymentToUpdate = await Payment.findOne({
+        where: {
+            [Op.and]: {
+                documentoIdentificacionArrendatario, codigoInmueble
+            }
         }
     });
 
