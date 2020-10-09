@@ -1,5 +1,6 @@
 
 const { Payment } = require('../mysql/mysql');
+const { Op } = require('sequelize');
 const moment = require('moment');
 
 const { RENTAL_COST } = require('../utils/consts');
@@ -7,7 +8,11 @@ const { RENTAL_COST } = require('../utils/consts');
 const createPayment = async (payment) => {
     const { documentoIdentificacionArrendatario, codigoInmueble, valorPagado } = payment;
 
-    const paymentToUpdate = await Payment.findOne({ where: { documentoIdentificacionArrendatario, codigoInmueble } });
+    const paymentToUpdate = await Payment.findOne({ where: { {
+        [Op.and]: {
+            documentoIdentificacionArrendatario, codigoInmueble
+        }
+    });
 
     if (paymentToUpdate) {
         const totalPaymentValue = Number(paymentToUpdate.valorPagado) + Number(valorPagado);
