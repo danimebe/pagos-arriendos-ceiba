@@ -33,7 +33,7 @@ La aplicación fue desarrollada usando Node como entorno, express como framework
 
 a continuación se describiran los ***endpoints*** y sus funcionalidades
 
-Por defecto el API correrá en el puerto ***8084*** por lo para consumir el api en local debemos seguir la siguiente ruta(Usando postman o un navegador):
+Por defecto el API correrá en el puerto ***8084*** por lo que para consumir el api en local debemos seguir la siguiente ruta(Usando postman o un navegador):
 
 - http://localhost:8084/api/pagos
 
