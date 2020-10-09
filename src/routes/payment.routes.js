@@ -12,9 +12,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/pagos', async (req, res) => {
     try {
-
         const payments = await getPayments();
-
         res.status(200).json(payments);
     } catch (error) {
         res.status(400).json({
@@ -26,7 +24,6 @@ app.get('/api/pagos', async (req, res) => {
 app.post('/api/pagos', [validateDate, validatePaymentValue], async (req, res) => {
 
     try {
-        console.log(req.body);
         const message = await createPayment(req.body);
 
         return res.status(201).json({

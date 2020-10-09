@@ -14,9 +14,9 @@ const validateDate = (req, res, next) => {
         })
     }
     const splitedDate = fechaPago.split('/').map(data => Number(data));
-    req.body.fechaPago = moment(splitedDate.reverse()).subtract(1, 'month').toDate();
+    req.body.fechaPago = moment(splitedDate.reverse()).subtract(1, 'month');
 
-    if (!validateOddDay(req.body.fechaPago)) {
+    if (!validateOddDay(req.body.fechaPago.toDate()) || !req.body.fechaPago.isValid()) {
         return res.status(400).json({
             respuesta: 'Lo siento pero no se puede recibir el pago por decreto de administración'
         })

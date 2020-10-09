@@ -6,24 +6,32 @@ const moment = require('moment');
 const { RENTAL_COST } = require('../utils/consts');
 
 const createPayment = async (payment) => {
-    const { documentoIdentificacionArrendatario, codigoInmueble, valorPagado } = payment;
+    const { documentoIdentificacionArrendatario, codigoInmueble, valorPagado, fechaPago } = payment;
+
+
+
+    if (isNaN(Number(documentoIdentificacionArrendatario))) {
+        throw new Error('El documento debe ser un valor numerico');
+    }
 
     const paymentToUpdate = await Payment.findOne({
         where: {
-            [Op.and]: {
-                documentoIdentificacionArrendatario, codigoInmueble
+            documentoIdentificacionArrendatario: {
+                [Op.eq]: documentoIdentificacionArrendatario,
+            }, codigoInmueble: {
+                [Op.eq]: codigoInmueble
             }
         }
     });
 
     if (paymentToUpdate) {
         const totalPaymentValue = Number(paymentToUpdate.valorPagado) + Number(valorPagado);
-        if (paymentToUpdate.valorPagado >= 1000000) {
+        if (paymentToUpdate.valorPagado >= RENTAL_COST) {
             throw new Error('Tu arriendo ya ha sido pagado');
         } else if (totalPaymentValue > RENTAL_COST) {
             throw new Error(`Ya habías pagado: $${paymentToUpdate.valorPagado} el valor total no puede superar ${RENTAL_COST}`);
         } else {
-            paymentToUpdate.update({ valorPagado: totalPaymentValue }, {
+            paymentToUpdate.update({ valorPagado: totalPaymentValue, fechaPago }, {
                 where: {
                     documentoIdentificacionArrendatario,
                     codigoInmueble
